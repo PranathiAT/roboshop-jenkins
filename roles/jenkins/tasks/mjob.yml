@@ -1,0 +1,25 @@
+- name: Check if jenkins job exists or not
+  community.general.jenkins_job_info:
+    name: "{{item.job_name}}"
+    user: admin
+    password: admin123
+    url: http://172.31.5.242:8080
+  register: jenkins_job_info
+  ignore_errors: true
+
+
+- name : copy xml file
+  ansible.builtin.template:
+    src: mjob.xml
+    dest: /tmp/test.xml
+  when: jenkins_job_info.failed
+
+
+- name: Create jenkins job
+  community.general.jenkins_job:
+    config: "{{ lookup('file', '/tmp/test.xml') }}"
+    name: "{{item.job_name}}"
+    user: admin
+    password: admin123
+    url: http://172.31.5.242:8080
+  when: jenkins_job_info.failed
