@@ -3,10 +3,11 @@
     src: sjob.xml
     dest: /tmp/test.xml
 
-- name : Create jenkins job
+
+- name: Create jenkins job
   community.general.jenkins_job:
-    config: "{{lookup('file'), 'test.xml'}}"
-    name: test create from ansible
+    config: "{{ lookup('file'), '/tmp/test.xml'}}"
+    name: "{{item.job_name}}"
+    user: admin
     password: admin123
     url: http://172.31.5.242:8080
-    user: admin
