@@ -5,6 +5,7 @@
     password: admin123
     url: http://172.31.5.242:8080
   register: jenkins_job_info
+  ignore_errors: true
 
 
 - name : copy xml file
