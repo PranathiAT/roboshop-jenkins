@@ -46,7 +46,11 @@ def call() {
                     }
                 }
                 steps {
-                    sh 'env'
+                    sh 'npm install'
+                    //create file VERSION
+                    sh 'echo $TAG_NAME >VERSION'
+                    //create zip with 3 files(node_modules,server.js,version)
+                    sh 'zip -r ${component}-${TAG_NAME}.zip node_modules server.js VERSION'
                     sh 'curl -v -u admin:admin123 --upload-file server.js http://172.31.80.175:8081/repository/cart/server.js'
                 }
             }
