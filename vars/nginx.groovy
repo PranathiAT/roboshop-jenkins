@@ -48,7 +48,7 @@ def call() {
                     }
                 }
                 steps {
-                    sh 'npm install'
+
                     //create file VERSION
                     sh 'echo $TAG_NAME >VERSION'
                     //create zip with 3 files(node_modules,server.js,version)
