@@ -53,7 +53,7 @@ def call() {
                     //create file VERSION
                     sh 'echo $TAG_NAME >VERSION'
                     //create zip with 3 files(node_modules,server.js,version)
-                    sh 'zip -r ${component}-${TAG_NAME}.zip node_modules server.js VERSION'
+                    sh 'zip -r ${component}-${TAG_NAME}.zip node_modules server.js VERSION ${schema_dir}'
                     sh 'curl -v -u ${NEXUS_USR}:${NEXUS_PSW} --upload-file ${component}-${TAG_NAME}.zip http://172.31.80.175:8081/repository/${component}/${component}-${TAG_NAME}.zip'
                 }
             }
