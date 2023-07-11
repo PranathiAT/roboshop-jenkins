@@ -54,8 +54,13 @@ def call() {
                     //create zip with 3 files(node_modules,server.js,version)
                     sh 'zip -r ${component}-${TAG_NAME}.zip *'
                     //deleting jenkins file from zip
-                    sh 'zip -d ${component}-${TAG_NAME}.zip Jenkinsfile'
-                    sh 'curl -v -u ${NEXUS_USR}:${NEXUS_PSW} --upload-file ${component}-${TAG_NAME}.zip http://172.31.80.175:8081/repository/${component}/${component}-${TAG_NAME}.zip'
+                    sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 141912740338.dkr.ecr.us-east-1.amazonaws.com'
+                    sh 'docker build -t 141912740338.dkr.ecr.us-east-1.amazonaws.com/${component}:${TAG_NAME} . '
+                    sh 'docker push 141912740338.dkr.ecr.us-east-1.amazonaws.com/${component}:${TAG_NAME}'
+
+//                    sh 'zip -d ${component}-${TAG_NAME}.zip Jenkinsfile'
+//                    sh 'curl -v -u ${NEXUS_USR}:${NEXUS_PSW} --upload-file ${component}-${TAG_NAME}.zip http://172.31.80.175:8081/repository/${component}/${component}-${TAG_NAME}.zip'
+
                 }
             }
 
